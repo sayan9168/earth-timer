@@ -188,3 +188,137 @@ footer{border-top:1px solid var(--border);padding-top:32px;display:flex;justify-
     </div>
   </footer>
 </div>
+<script>
+const rates={births:4.5,deaths:1.8,marriages:2.1,divorces:1.1,lightning:100,waves:1400000000,quakes:1.3,bees:2000000000000,trees:475,co2:1172,fish:31700,water:150000000,messages:1157407,searches:98380,burgers:1585,coffee:28935,money:200000,stars:3,meteors:197,distance:30,pop:2.3};
+const startTime=Date.now();
+
+function fmt(n){
+  if(n>=1e15) return (n/1e15).toFixed(1)+'Q';
+  if(n>=1e12) return (n/1e12).toFixed(1)+'T';
+  if(n>=1e9)  return (n/1e9).toFixed(1)+'B';
+  if(n>=1e6)  return (n/1e6).toFixed(1)+'M';
+  if(n>=1e3)  return Math.round(n).toLocaleString();
+  if(n<10)    return n.toFixed(1);
+  return Math.round(n).toLocaleString();
+}
+
+function fmtMoney(n){
+  if(n>=1e9) return '$'+(n/1e9).toFixed(1)+'B';
+  if(n>=1e6) return '$'+(n/1e6).toFixed(1)+'M';
+  return '$'+Math.round(n).toLocaleString();
+}
+
+function updateWatchTimer(){
+  const e=Math.floor((Date.now()-startTime)/1000);
+  const h=Math.floor(e/3600),m=Math.floor((e%3600)/60),s=e%60;
+  document.getElementById('watchTimer').innerHTML=
+    String(h).padStart(2,'0')+'<span>:</span>'+
+    String(m).padStart(2,'0')+'<span>:</span>'+
+    String(s).padStart(2,'0');
+}
+
+function updatePop(){
+  const e=(Date.now()-startTime)/1000;
+  document.getElementById('worldPop').textContent=Math.round(8119000000+e*rates.pop).toLocaleString();
+}
+
+function getFlights(){
+  const h=new Date().getHours();
+  return Math.round((h>=6&&h<=22?9500:4200)+Math.sin(Date.now()/10000)*300);
+}
+
+function setVal(id,val){
+  const el=document.getElementById(id);
+  if(!el) return;
+  const v=String(val);
+  if(el.textContent!==v){
+    el.textContent=v;
+    el.classList.remove('num-changed');
+    void el.offsetWidth;
+    el.classList.add('num-changed');
+  }
+}
+
+function update(){
+  const e=(Date.now()-startTime)/1000;
+  setVal('since-births',   fmt(e*rates.births));
+  setVal('since-deaths',   fmt(e*rates.deaths));
+  setVal('since-trees',    fmt(e*rates.trees));
+  setVal('since-co2',      fmt(e*rates.co2));
+  setVal('since-lightning',fmt(e*rates.lightning));
+  setVal('s-births',       fmt(e*rates.births));
+  setVal('s-deaths',       fmt(e*rates.deaths));
+  setVal('s-marriages',    fmt(e*rates.marriages));
+  setVal('s-divorces',     fmt(e*rates.divorces));
+  setVal('s-lightning',    fmt(e*rates.lightning));
+  setVal('s-waves',        fmt(e*rates.waves));
+  setVal('s-quakes',       fmt(e*rates.quakes));
+  setVal('s-bees',         fmt(e*rates.bees));
+  setVal('s-trees',        fmt(e*rates.trees));
+  setVal('s-co2',          fmt(e*rates.co2));
+  setVal('s-fish',         fmt(e*rates.fish));
+  setVal('s-water',        fmt(e*rates.water));
+  setVal('s-flights',      fmt(getFlights()));
+  setVal('s-messages',     fmt(e*rates.messages));
+  setVal('s-searches',     fmt(e*rates.searches));
+  setVal('s-burgers',      fmt(e*rates.burgers));
+  setVal('s-coffee',       fmt(e*rates.coffee));
+  setVal('s-money',        fmtMoney(e*rates.money));
+  setVal('s-stars',        fmt(e*rates.stars));
+  setVal('s-meteors',      fmt(e*rates.meteors));
+  setVal('s-distance',     fmt(e*rates.distance)+' km');
+  updateWatchTimer();
+  updatePop();
+}
+
+setInterval(update,100);
+update();
+
+const facts=[
+  "Every second, 4.5 babies are born somewhere on Earth 👶",
+  "Lightning strikes Earth about 100 times every second ⚡",
+  "About 475 trees are cut down every single second 🌳",
+  "1.15 million WhatsApp messages are sent every second 📱",
+  "The Earth travels 30 kilometers through space every second 🚀",
+  "About 31,700 fish are caught from the ocean every second 🐟",
+  "98,000 Google searches happen every single second 🔍",
+  "The sun delivers 173,000 terawatts of energy to Earth non-stop ☀️",
+  "About 197 meteors enter Earth's atmosphere every second 🌠",
+  "1,172 tons of CO₂ are released into the atmosphere every second 🌫️",
+  "150 million liters of fresh water are used globally every second 💧",
+  "28,935 cups of coffee are consumed around the world every second ☕",
+  "About 3 new stars are born in our galaxy every second 🌌",
+  "2.1 couples get married somewhere on Earth every second 💒",
+  "$200,000 is spent in online purchases every single second 💸",
+  "This page was built by Sayan — one person, big ideas 🚀",
+];
+
+let factIndex=0;
+function rotateFact(){
+  const el=document.getElementById('tickerText');
+  el.classList.add('fade');
+  setTimeout(()=>{
+    factIndex=(factIndex+1)%facts.length;
+    el.textContent=facts[factIndex];
+    el.classList.remove('fade');
+  },500);
+}
+document.getElementById('tickerText').textContent=facts[0];
+setInterval(rotateFact,4000);
+
+function copyLink(){
+  navigator.clipboard.writeText(window.location.href).then(()=>{
+    const btn=event.target;
+    const orig=btn.textContent;
+    btn.textContent='✅ Copied!';
+    setTimeout(()=>btn.textContent=orig,2000);
+  });
+}
+
+function shareTwitter(){
+  const text=encodeURIComponent('Every second on Earth: 4.5 babies born, 100 lightning strikes, 475 trees cut 🌍 Real-time live stats built by Sayan');
+  window.open('https://twitter.com/intent/tweet?text='+text+'&url='+encodeURIComponent(window.location.href),'_blank');
+}
+</script>
+</body>
+</html>
