@@ -80,3 +80,360 @@ body::before { content: ''; position: fixed; inset: 0; background-image: url("da
 @keyframes countUp { from{transform:translateY(4px);opacity:0} to{transform:translateY(0);opacity:1} }
 .num-changed { animation: countUp 0.15s ease forwards; }
 </style>
+<style>
+footer { border-top: 1px solid var(--border); padding-top: 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+.footer-note { font-size: 12px; color: var(--muted); font-family: var(--font-mono); line-height: 1.6; max-width: 500px; }
+.footer-share { display: flex; gap: 10px; }
+.share-btn { padding: 10px 20px; border-radius: 99px; border: 1px solid var(--border); background: none; font-family: var(--font-body); font-size: 13px; font-weight: 600; color: var(--ink2); cursor: pointer; transition: all 0.2s; }
+.share-btn:hover { background: var(--ink); color: white; border-color: var(--ink); }
+.share-btn.primary { background: var(--ink); color: white; border-color: var(--ink); }
+
+/* Credit badge */
+.credit-badge {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--ink);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 8px 16px;
+  border-radius: 99px;
+  letter-spacing: 1px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 20px rgba(26,20,16,0.2);
+  opacity: 0;
+  animation: fadeUp 0.8s 1.2s cubic-bezier(.16,1,.3,1) forwards;
+}
+.credit-badge::before {
+  content: '⚡';
+  font-size: 13px;
+}
+
+@media(max-width:700px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-right { text-align: left; }
+  .big-counter-grid { grid-template-columns: 1fr; }
+  .population-card { grid-template-columns: 1fr; }
+  .since-stats { gap: 20px; }
+  .hero-timer { font-size: 36px; }
+  .credit-badge { bottom: 16px; right: 16px; font-size: 10px; }
+}
+</style>
+</head>
+<body>
+
+<div class="credit-badge">Built by Sayan</div>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">
+        <span class="live-dot"></span>
+        Live Planet Data · by Sayan
+      </div>
+      <h1 class="hero-title">Every Second<br><em>on Earth</em></h1>
+      <p class="hero-sub">Right now, as you read this, billions of events are unfolding across our planet. Here's what's happening — in real time.</p>
+    </div>
+    <div class="hero-right">
+      <div class="hero-timer-label">You've been watching for</div>
+      <div class="hero-timer" id="watchTimer">00<span>:</span>00<span>:</span>00</div>
+    </div>
+  </div>
+
+  <div class="since-bar">
+    <div class="since-label">Since you opened this page</div>
+    <div class="since-stats">
+      <div class="since-stat"><div class="since-val" id="since-births">0</div><div class="since-stat-label">👶 Births</div></div>
+      <div class="since-stat"><div class="since-val" id="since-deaths">0</div><div class="since-stat-label">💀 Deaths</div></div>
+      <div class="since-stat"><div class="since-val" id="since-trees">0</div><div class="since-stat-label">🌳 Trees cut</div></div>
+      <div class="since-stat"><div class="since-val" id="since-co2">0</div><div class="since-stat-label">🌫️ Tons CO₂</div></div>
+      <div class="since-stat"><div class="since-val" id="since-lightning">0</div><div class="since-stat-label">⚡ Lightning</div></div>
+    </div>
+  </div>
+
+  <div class="ticker-wrap">
+    <div class="ticker-label">Did you know</div>
+    <div class="ticker-text" id="tickerText">Loading fascinating facts…</div>
+  </div>
+
+  <div class="population-card">
+    <div class="pop-left">
+      <div class="pop-title">World Population</div>
+      <div class="pop-number" id="worldPop">8,119,000,000</div>
+      <p class="pop-sub">Growing at ~2.3 people per second. Net gain after accounting for births and deaths.</p>
+    </div>
+    <div class="pop-right">
+      <div class="pop-bar-wrap">
+        <div class="pop-bar-row"><div class="pop-bar-label">Asia</div><div class="pop-bar-track"><div class="pop-bar-fill" style="width:59%;background:#1d3557"></div></div><div class="pop-bar-val">59%</div></div>
+        <div class="pop-bar-row"><div class="pop-bar-label">Africa</div><div class="pop-bar-track"><div class="pop-bar-fill" style="width:18%;background:#e76f51"></div></div><div class="pop-bar-val">18%</div></div>
+        <div class="pop-bar-row"><div class="pop-bar-label">Europe</div><div class="pop-bar-track"><div class="pop-bar-fill" style="width:10%;background:#4a7c59"></div></div><div class="pop-bar-val">10%</div></div>
+        <div class="pop-bar-row"><div class="pop-bar-label">Americas</div><div class="pop-bar-track"><div class="pop-bar-fill" style="width:13%;background:#6b4226"></div></div><div class="pop-bar-val">13%</div></div>
+        <div class="pop-bar-row"><div class="pop-bar-label">Oceania</div><div class="pop-bar-track"><div class="pop-bar-fill" style="width:1%;background:#9a8d7e"></div></div><div class="pop-bar-val">1%</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="section-wrap">
+    <div class="section-header">
+      <div class="section-title">Life & Death</div>
+      <div class="section-desc">Per second on Earth</div>
+    </div>
+    <div class="cards-grid">
+      <div class="stat-card birth"><span class="stat-emoji">👶</span><div class="stat-number" id="s-births">0</div><div class="stat-label">Babies Born</div><div class="stat-sub">~4.5 per second globally</div><div class="per-sec"><span class="per-sec-dot"></span>+4.5 / sec</div></div>
+      <div class="stat-card death"><span class="stat-emoji">💀</span><div class="stat-number" id="s-deaths">0</div><div class="stat-label">People Died</div><div class="stat-sub">~1.8 per second globally</div><div class="per-sec"><span class="per-sec-dot"></span>+1.8 / sec</div></div>
+      <div class="stat-card birth"><span class="stat-emoji">💒</span><div class="stat-number" id="s-marriages">0</div><div class="stat-label">Marriages</div><div class="stat-sub">~2.1 per second</div><div class="per-sec"><span class="per-sec-dot"></span>+2.1 / sec</div></div>
+      <div class="stat-card death"><span class="stat-emoji">💔</span><div class="stat-number" id="s-divorces">0</div><div class="stat-label">Divorces</div><div class="stat-sub">~1.1 per second</div><div class="per-sec"><span class="per-sec-dot"></span>+1.1 / sec</div></div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-header">
+      <div class="section-title">Nature</div>
+      <div class="section-desc">Our planet never sleeps</div>
+    </div>
+    <div class="cards-grid">
+      <div class="stat-card nature"><span class="stat-emoji">⚡</span><div class="stat-number" id="s-lightning">0</div><div class="stat-label">Lightning Strikes</div><div class="stat-sub">~100 per second worldwide</div><div class="per-sec"><span class="per-sec-dot"></span>+100 / sec</div></div>
+      <div class="stat-card nature"><span class="stat-emoji">🌊</span><div class="stat-number" id="s-waves">0</div><div class="stat-label">Ocean Waves</div><div class="stat-sub">Billions crash every second</div><div class="per-sec"><span class="per-sec-dot"></span>+1.4B / sec</div></div>
+      <div class="stat-card nature"><span class="stat-emoji">🌍</span><div class="stat-number" id="s-quakes">0</div><div class="stat-label">Micro Earthquakes</div><div class="stat-sub">~1.3 detectable per second</div><div class="per-sec"><span class="per-sec-dot"></span>+1.3 / sec</div></div>
+      <div class="stat-card nature"><span class="stat-emoji">🐝</span><div class="stat-number" id="s-bees">0</div><div class="stat-label">Bee Wingbeats</div><div class="stat-sub">Trillions per second globally</div><div class="per-sec"><span class="per-sec-dot"></span>+2T / sec</div></div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-header">
+      <div class="section-title">Climate & Environment</div>
+      <div class="section-desc">The numbers that matter most</div>
+    </div>
+    <div class="big-counter-grid">
+      <div class="big-counter" data-emoji="🌳"><div class="big-counter-val" id="s-trees">0</div><div class="big-counter-label">Trees Cut Down</div><div class="big-counter-sub">~15 billion per year · ~475 per second</div></div>
+      <div class="big-counter" data-emoji="🌫️"><div class="big-counter-val" id="s-co2">0</div><div class="big-counter-label">Tons of CO₂ Emitted</div><div class="big-counter-sub">~37B tons/year · ~1,172 per second</div></div>
+      <div class="big-counter" data-emoji="🐟"><div class="big-counter-val" id="s-fish">0</div><div class="big-counter-label">Fish Caught</div><div class="big-counter-sub">~1 trillion/year · ~31,700 per second</div></div>
+      <div class="big-counter" data-emoji="💧"><div class="big-counter-val" id="s-water">0</div><div class="big-counter-label">Liters of Water Used</div><div class="big-counter-sub">~13 trillion/day · ~150M per second</div></div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-header">
+      <div class="section-title">Human Activity</div>
+      <div class="section-desc">8 billion people doing things right now</div>
+    </div>
+    <div class="cards-grid">
+      <div class="stat-card human"><span class="stat-emoji">✈️</span><div class="stat-number" id="s-flights">0</div><div class="stat-label">Flights in the Air</div><div class="stat-sub">~10,000 planes airborne at peak</div><div class="per-sec"><span class="per-sec-dot"></span>live count</div></div>
+      <div class="stat-card human"><span class="stat-emoji">📱</span><div class="stat-number" id="s-messages">0</div><div class="stat-label">WhatsApp Messages</div><div class="stat-sub">~100 billion per day</div><div class="per-sec"><span class="per-sec-dot"></span>+1.15M / sec</div></div>
+      <div class="stat-card human"><span class="stat-emoji">🔍</span><div class="stat-number" id="s-searches">0</div><div class="stat-label">Google Searches</div><div class="stat-sub">~8.5 billion per day</div><div class="per-sec"><span class="per-sec-dot"></span>+98K / sec</div></div>
+      <div class="stat-card human"><span class="stat-emoji">🍔</span><div class="stat-number" id="s-burgers">0</div><div class="stat-label">Burgers Eaten</div><div class="stat-sub">~50 billion per year globally</div><div class="per-sec"><span class="per-sec-dot"></span>+1,585 / sec</div></div>
+      <div class="stat-card human"><span class="stat-emoji">☕</span><div class="stat-number" id="s-coffee">0</div><div class="stat-label">Cups of Coffee</div><div class="stat-sub">~2.5 billion cups per day</div><div class="per-sec"><span class="per-sec-dot"></span>+28,900 / sec</div></div>
+      <div class="stat-card human"><span class="stat-emoji">💸</span><div class="stat-number" id="s-money">0</div><div class="stat-label">$ Spent Online</div><div class="stat-sub">~$6.3 trillion e-commerce/year</div><div class="per-sec"><span class="per-sec-dot"></span>+$200K / sec</div></div>
+    </div>
+  </div>
+
+  <div class="section-wrap">
+    <div class="section-header">
+      <div class="section-title">Space & Universe</div>
+      <div class="section-desc">Beyond our pale blue dot</div>
+    </div>
+    <div class="cards-grid">
+      <div class="stat-card space"><span class="stat-emoji">☀️</span><div class="stat-number" id="s-solar">173K TW</div><div class="stat-label">Solar Energy Hitting Earth</div><div class="stat-sub">~173,000 TW continuously</div><div class="per-sec"><span class="per-sec-dot"></span>constant</div></div>
+      <div class="stat-card space"><span class="stat-emoji">🌌</span><div class="stat-number" id="s-stars">0</div><div class="stat-label">New Stars Born</div><div class="stat-sub">~3 per second in Milky Way</div><div class="per-sec"><span class="per-sec-dot"></span>+3 / sec</div></div>
+      <div class="stat-card space"><span class="stat-emoji">🌠</span><div class="stat-number" id="s-meteors">0</div><div class="stat-label">Meteors Enter Atmosphere</div><div class="stat-sub">~17 million per day</div><div class="per-sec"><span class="per-sec-dot"></span>+197 / sec</div></div>
+      <div class="stat-card space"><span class="stat-emoji">🚀</span><div class="stat-number" id="s-distance">0</div><div class="stat-label">km Earth Travels in Space</div><div class="stat-sub">Earth orbits sun at ~30 km/s</div><div class="per-sec"><span class="per-sec-dot"></span>+30 km / sec</div></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-note">
+      Data sourced from WHO, UN, NASA, WRI & peer-reviewed research.<br>
+      Built with ❤️ by <strong>Sayan</strong> · Numbers are approximations based on annual statistics.
+    </div>
+    <div class="footer-share">
+      <button class="share-btn" onclick="copyLink()">🔗 Copy Link</button>
+      <button class="share-btn primary" onclick="shareTwitter()">𝕏 Share</button>
+    </div>
+  </footer>
+
+                                                                      </div
+<script>
+const rates = {
+  births:    4.5,
+  deaths:    1.8,
+  marriages: 2.1,
+  divorces:  1.1,
+  lightning: 100,
+  waves:     1400000000,
+  quakes:    1.3,
+  bees:      2000000000000,
+  trees:     475,
+  co2:       1172,
+  fish:      31700,
+  water:     150000000,
+  messages:  1157407,
+  searches:  98380,
+  burgers:   1585,
+  coffee:    28935,
+  money:     200000,
+  stars:     3,
+  meteors:   197,
+  distance:  30,
+  pop:       2.3,
+};
+
+const startTime = Date.now();
+
+function fmt(n) {
+  if(n >= 1e15) return (n/1e15).toFixed(1)+'Q';
+  if(n >= 1e12) return (n/1e12).toFixed(1)+'T';
+  if(n >= 1e9)  return (n/1e9).toFixed(1)+'B';
+  if(n >= 1e6)  return (n/1e6).toFixed(1)+'M';
+  if(n >= 1e3)  return Math.round(n).toLocaleString();
+  if(n < 10)    return n.toFixed(1);
+  return Math.round(n).toLocaleString();
+}
+
+function fmtMoney(n) {
+  if(n >= 1e9) return '$'+(n/1e9).toFixed(1)+'B';
+  if(n >= 1e6) return '$'+(n/1e6).toFixed(1)+'M';
+  return '$'+Math.round(n).toLocaleString();
+}
+
+function updateWatchTimer() {
+  const elapsed = Math.floor((Date.now() - startTime) / 1000);
+  const h = Math.floor(elapsed / 3600);
+  const m = Math.floor((elapsed % 3600) / 60);
+  const s = elapsed % 60;
+  document.getElementById('watchTimer').innerHTML =
+    String(h).padStart(2,'0') + '<span>:</span>' +
+    String(m).padStart(2,'0') + '<span>:</span>' +
+    String(s).padStart(2,'0');
+}
+
+function updatePop() {
+  const elapsed = (Date.now() - startTime) / 1000;
+  const pop = Math.round(8119000000 + elapsed * rates.pop);
+  document.getElementById('worldPop').textContent = pop.toLocaleString();
+}
+
+function getFlights() {
+  const hour = new Date().getHours();
+  const base = hour >= 6 && hour <= 22 ? 9500 : 4200;
+  return Math.round(base + Math.sin(Date.now()/10000) * 300);
+}
+
+function setVal(id, val) {
+  const el = document.getElementById(id);
+  if(!el) return;
+  if(el.textContent !== String(val)) {
+    el.textContent = val;
+    el.classList.remove('num-changed');
+    void el.offsetWidth;
+    el.classList.add('num-changed');
+  }
+}
+
+let lastTime = Date.now();
+
+function update() {
+  const now = Date.now();
+  lastTime = now;
+  const elapsed = (now - startTime) / 1000;
+
+  // Since bar
+  setVal('since-births',    fmt(elapsed * rates.births));
+  setVal('since-deaths',    fmt(elapsed * rates.deaths));
+  setVal('since-trees',     fmt(elapsed * rates.trees));
+  setVal('since-co2',       fmt(elapsed * rates.co2));
+  setVal('since-lightning', fmt(elapsed * rates.lightning));
+
+  // Life & death
+  setVal('s-births',    fmt(elapsed * rates.births));
+  setVal('s-deaths',    fmt(elapsed * rates.deaths));
+  setVal('s-marriages', fmt(elapsed * rates.marriages));
+  setVal('s-divorces',  fmt(elapsed * rates.divorces));
+
+  // Nature
+  setVal('s-lightning', fmt(elapsed * rates.lightning));
+  setVal('s-waves',     fmt(elapsed * rates.waves));
+  setVal('s-quakes',    fmt(elapsed * rates.quakes));
+  setVal('s-bees',      fmt(elapsed * rates.bees));
+
+  // Climate
+  setVal('s-trees', fmt(elapsed * rates.trees));
+  setVal('s-co2',   fmt(elapsed * rates.co2));
+  setVal('s-fish',  fmt(elapsed * rates.fish));
+  setVal('s-water', fmt(elapsed * rates.water));
+
+  // Human
+  setVal('s-flights',  fmt(getFlights()));
+  setVal('s-messages', fmt(elapsed * rates.messages));
+  setVal('s-searches', fmt(elapsed * rates.searches));
+  setVal('s-burgers',  fmt(elapsed * rates.burgers));
+  setVal('s-coffee',   fmt(elapsed * rates.coffee));
+  setVal('s-money',    fmtMoney(elapsed * rates.money));
+
+  // Space
+  setVal('s-stars',    fmt(elapsed * rates.stars));
+  setVal('s-meteors',  fmt(elapsed * rates.meteors));
+  setVal('s-distance', fmt(elapsed * rates.distance) + ' km');
+
+  updateWatchTimer();
+  updatePop();
+}
+
+setInterval(update, 100);
+update();
+</script>
+  <script>
+const facts = [
+  "Every second, 4.5 babies are born somewhere on Earth 👶",
+  "Lightning strikes Earth about 100 times every second ⚡",
+  "About 475 trees are cut down every single second 🌳",
+  "1.15 million WhatsApp messages are sent every second 📱",
+  "The Earth travels 30 kilometers through space every second 🚀",
+  "About 31,700 fish are caught from the ocean every second 🐟",
+  "98,000 Google searches happen every single second 🔍",
+  "The sun delivers 173,000 terawatts of energy to Earth non-stop ☀️",
+  "About 197 meteors enter Earth's atmosphere every second 🌠",
+  "1,172 tons of CO₂ are released into the atmosphere every second 🌫️",
+  "150 million liters of fresh water are used globally every second 💧",
+  "28,935 cups of coffee are consumed around the world every second ☕",
+  "About 3 new stars are born in our galaxy every second 🌌",
+  "2.1 couples get married somewhere on Earth every second 💒",
+  "$200,000 is spent in online purchases every single second 💸",
+  "Bees flap their wings trillions of times every second across Earth 🐝",
+  "About 1.3 micro-earthquakes are detected somewhere on Earth per second 🌍",
+  "This page was built by Sayan — a one-person dev with big ideas 🚀",
+];
+
+let factIndex = 0;
+
+function rotateFact() {
+  const el = document.getElementById('tickerText');
+  el.classList.add('fade');
+  setTimeout(() => {
+    factIndex = (factIndex + 1) % facts.length;
+    el.textContent = facts[factIndex];
+    el.classList.remove('fade');
+  }, 500);
+}
+
+document.getElementById('tickerText').textContent = facts[0];
+setInterval(rotateFact, 4000);
+
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    const btn = event.target;
+    const orig = btn.textContent;
+    btn.textContent = '✅ Copied!';
+    setTimeout(() => btn.textContent = orig, 2000);
+  });
+}
+
+function shareTwitter() {
+  const text = encodeURIComponent('Every second on Earth: 4.5 babies born, 100 lightning strikes, 475 trees cut down 🌍 Mind-blowing real-time stats built by @Sayan');
+  window.open('https://twitter.com/intent/tweet?text='+text+'&url='+encodeURIComponent(window.location.href), '_blank');
+}
+</script>
+</body>
+</html>
