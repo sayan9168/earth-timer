@@ -32,4 +32,4 @@ No frameworks. No backend. No tracking.
 
 ## Live Demo
 
-[View Live](#)
+[View Live](https://earth-timer.vercel.app/)
