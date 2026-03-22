@@ -9,132 +9,92 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=JetBrains+Mono:wght@300;400;600&family=Manrope:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #f5f0e8; --ink: #1a1410; --ink2: #3d3228; --muted: #9a8d7e;
-  --muted2: #c4b9aa; --border: #e2d9cc; --birth: #2d6a4f; --death: #c1440e;
-  --nature: #4a7c59; --human: #1d3557; --climate: #e76f51; --space: #6b4226;
-  --card: #faf7f2;
-  --font-display: 'Playfair Display', serif;
-  --font-mono: 'JetBrains Mono', monospace;
-  --font-body: 'Manrope', sans-serif;
+  --bg:#f5f0e8;--ink:#1a1410;--ink2:#3d3228;--muted:#9a8d7e;--muted2:#c4b9aa;
+  --border:#e2d9cc;--birth:#2d6a4f;--death:#c1440e;--nature:#4a7c59;
+  --human:#1d3557;--climate:#e76f51;--space:#6b4226;--card:#faf7f2;
+  --font-display:'Playfair Display',serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --font-body:'Manrope',sans-serif;
 }
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior: smooth; }
-body { background: var(--bg); color: var(--ink); font-family: var(--font-body); min-height: 100vh; overflow-x: hidden; }
-body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 100; opacity: 0.4; }
-.wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px 100px; }
-.hero { padding: 80px 0 60px; border-bottom: 1px solid var(--border); margin-bottom: 60px; display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 40px; }
-.hero-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 4px; color: var(--muted); text-transform: uppercase; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-.live-dot { width: 8px; height: 8px; background: #e63946; border-radius: 50%; animation: pulse-dot 1.5s infinite; flex-shrink: 0; }
-@keyframes pulse-dot { 0%,100%{transform:scale(1);opacity:1;box-shadow:0 0 0 0 rgba(230,57,70,0.4)} 50%{transform:scale(1.2);opacity:0.8;box-shadow:0 0 0 6px rgba(230,57,70,0)} }
-.hero-title { font-family: var(--font-display); font-size: clamp(48px, 8vw, 96px); line-height: 0.95; font-weight: 900; letter-spacing: -2px; margin-bottom: 24px; opacity: 0; animation: fadeUp 0.8s 0.1s cubic-bezier(.16,1,.3,1) forwards; }
-.hero-title em { font-style: italic; color: var(--muted); font-weight: 400; }
-.hero-sub { font-size: 16px; color: var(--muted); font-weight: 300; line-height: 1.7; max-width: 480px; opacity: 0; animation: fadeUp 0.8s 0.2s cubic-bezier(.16,1,.3,1) forwards; }
-.hero-right { text-align: right; opacity: 0; animation: fadeUp 0.8s 0.3s cubic-bezier(.16,1,.3,1) forwards; }
-.hero-timer-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; }
-.hero-timer { font-family: var(--font-mono); font-size: 48px; font-weight: 600; color: var(--ink); letter-spacing: -1px; line-height: 1; }
-.hero-timer span { color: var(--muted2); font-weight: 300; }
-.since-bar { background: var(--ink); color: var(--bg); border-radius: 16px; padding: 20px 28px; margin-bottom: 60px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.8s 0.4s cubic-bezier(.16,1,.3,1) forwards; }
-.since-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 3px; color: var(--muted2); text-transform: uppercase; flex-shrink: 0; }
-.since-stats { display: flex; gap: 32px; flex-wrap: wrap; flex: 1; }
-.since-val { font-family: var(--font-mono); font-size: 22px; font-weight: 600; color: #fff; line-height: 1; }
-.since-stat-label { font-size: 11px; color: var(--muted2); margin-top: 3px; font-family: var(--font-mono); letter-spacing: 1px; }
-.section-header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
-.section-title { font-family: var(--font-display); font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
-.section-desc { font-size: 13px; color: var(--muted); font-weight: 300; }
-.section-wrap { margin-bottom: 64px; opacity: 0; animation: fadeUp 0.8s cubic-bezier(.16,1,.3,1) forwards; }
-.section-wrap:nth-child(1){animation-delay:0.5s} .section-wrap:nth-child(2){animation-delay:0.6s} .section-wrap:nth-child(3){animation-delay:0.7s} .section-wrap:nth-child(4){animation-delay:0.8s} .section-wrap:nth-child(5){animation-delay:0.9s}
-.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
-.stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 22px; position: relative; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; }
-.stat-card:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(26,20,16,0.08); }
-.stat-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; border-radius: 99px; }
-.stat-card.birth::before{background:var(--birth)} .stat-card.death::before{background:var(--death)} .stat-card.nature::before{background:var(--nature)} .stat-card.human::before{background:var(--human)} .stat-card.climate::before{background:var(--climate)} .stat-card.space::before{background:var(--space)}
-.stat-emoji { font-size: 24px; margin-bottom: 14px; display: block; line-height: 1; }
-.stat-number { font-family: var(--font-mono); font-size: 36px; font-weight: 600; line-height: 1; margin-bottom: 6px; letter-spacing: -1px; transition: color 0.3s; }
-.stat-card.birth .stat-number{color:var(--birth)} .stat-card.death .stat-number{color:var(--death)} .stat-card.nature .stat-number{color:var(--nature)} .stat-card.human .stat-number{color:var(--human)} .stat-card.climate .stat-number{color:var(--climate)} .stat-card.space .stat-number{color:var(--space)}
-.stat-label { font-size: 13px; font-weight: 600; color: var(--ink2); margin-bottom: 4px; }
-.stat-sub { font-size: 11px; color: var(--muted); font-family: var(--font-mono); letter-spacing: 0.5px; }
-.per-sec { display: inline-flex; align-items: center; gap: 5px; background: rgba(26,20,16,0.05); border-radius: 99px; padding: 3px 10px; font-family: var(--font-mono); font-size: 10px; color: var(--muted); margin-top: 10px; letter-spacing: 1px; }
-.per-sec-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; animation: blink2 1s infinite; }
-@keyframes blink2 { 0%,100%{opacity:1} 50%{opacity:0.2} }
-.big-counter-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
-.big-counter { background: var(--ink); border-radius: 16px; padding: 28px; color: white; position: relative; overflow: hidden; }
-.big-counter::after { content: attr(data-emoji); position: absolute; right: 20px; bottom: 16px; font-size: 64px; opacity: 0.08; line-height: 1; pointer-events: none; }
-.big-counter-val { font-family: var(--font-mono); font-size: clamp(28px, 4vw, 48px); font-weight: 600; letter-spacing: -1px; line-height: 1; margin-bottom: 8px; color: #fff; }
-.big-counter-label { font-size: 13px; color: rgba(255,255,255,0.5); font-weight: 300; letter-spacing: 0.5px; }
-.big-counter-sub { font-family: var(--font-mono); font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 8px; letter-spacing: 1px; }
-.ticker-wrap { background: var(--ink); border-radius: 12px; padding: 16px 24px; margin-bottom: 64px; overflow: hidden; opacity: 0; animation: fadeUp 0.8s 1s cubic-bezier(.16,1,.3,1) forwards; }
-.ticker-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 3px; color: var(--muted2); text-transform: uppercase; margin-bottom: 8px; }
-.ticker-text { font-family: var(--font-mono); font-size: 14px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: opacity 0.5s; }
-.ticker-text.fade { opacity: 0; }
-.population-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 32px; margin-bottom: 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; opacity: 0; animation: fadeUp 0.8s 0.7s cubic-bezier(.16,1,.3,1) forwards; }
-.pop-title { font-family: var(--font-display); font-size: 18px; font-weight: 700; margin-bottom: 8px; color: var(--ink2); }
-.pop-number { font-family: var(--font-mono); font-size: clamp(36px, 5vw, 56px); font-weight: 600; color: var(--human); letter-spacing: -2px; line-height: 1; margin-bottom: 12px; }
-.pop-sub { font-size: 13px; color: var(--muted); font-weight: 300; line-height: 1.6; }
-.pop-bar-wrap { display: flex; flex-direction: column; gap: 10px; }
-.pop-bar-row { display: flex; align-items: center; gap: 12px; }
-.pop-bar-label { font-size: 12px; color: var(--ink2); font-weight: 600; width: 80px; flex-shrink: 0; }
-.pop-bar-track { flex: 1; height: 6px; background: var(--border); border-radius: 99px; overflow: hidden; }
-.pop-bar-fill { height: 100%; border-radius: 99px; }
-.pop-bar-val { font-family: var(--font-mono); font-size: 11px; color: var(--muted); width: 40px; text-align: right; flex-shrink: 0; }
-@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-@keyframes countUp { from{transform:translateY(4px);opacity:0} to{transform:translateY(0);opacity:1} }
-.num-changed { animation: countUp 0.15s ease forwards; }
-</style>
-<style>
-footer { border-top: 1px solid var(--border); padding-top: 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
-.footer-note { font-size: 12px; color: var(--muted); font-family: var(--font-mono); line-height: 1.6; max-width: 500px; }
-.footer-share { display: flex; gap: 10px; }
-.share-btn { padding: 10px 20px; border-radius: 99px; border: 1px solid var(--border); background: none; font-family: var(--font-body); font-size: 13px; font-weight: 600; color: var(--ink2); cursor: pointer; transition: all 0.2s; }
-.share-btn:hover { background: var(--ink); color: white; border-color: var(--ink); }
-.share-btn.primary { background: var(--ink); color: white; border-color: var(--ink); }
-
-/* Credit badge */
-.credit-badge {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  background: var(--ink);
-  color: #fff;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  padding: 8px 16px;
-  border-radius: 99px;
-  letter-spacing: 1px;
-  z-index: 999;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  box-shadow: 0 4px 20px rgba(26,20,16,0.2);
-  opacity: 0;
-  animation: fadeUp 0.8s 1.2s cubic-bezier(.16,1,.3,1) forwards;
-}
-.credit-badge::before {
-  content: '⚡';
-  font-size: 13px;
-}
-
-@media(max-width:700px) {
-  .hero { grid-template-columns: 1fr; }
-  .hero-right { text-align: left; }
-  .big-counter-grid { grid-template-columns: 1fr; }
-  .population-card { grid-template-columns: 1fr; }
-  .since-stats { gap: 20px; }
-  .hero-timer { font-size: 36px; }
-  .credit-badge { bottom: 16px; right: 16px; font-size: 10px; }
-}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:100;opacity:0.4}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px 100px}
+.hero{padding:80px 0 60px;border-bottom:1px solid var(--border);margin-bottom:60px;display:grid;grid-template-columns:1fr auto;align-items:end;gap:40px}
+.hero-eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:4px;color:var(--muted);text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.live-dot{width:8px;height:8px;background:#e63946;border-radius:50%;animation:pulse-dot 1.5s infinite;flex-shrink:0}
+@keyframes pulse-dot{0%,100%{transform:scale(1);opacity:1;box-shadow:0 0 0 0 rgba(230,57,70,0.4)}50%{transform:scale(1.2);opacity:0.8;box-shadow:0 0 0 6px rgba(230,57,70,0)}}
+.hero-title{font-family:var(--font-display);font-size:clamp(48px,8vw,96px);line-height:0.95;font-weight:900;letter-spacing:-2px;margin-bottom:24px;opacity:0;animation:fadeUp 0.8s 0.1s cubic-bezier(.16,1,.3,1) forwards}
+.hero-title em{font-style:italic;color:var(--muted);font-weight:400}
+.hero-sub{font-size:16px;color:var(--muted);font-weight:300;line-height:1.7;max-width:480px;opacity:0;animation:fadeUp 0.8s 0.2s cubic-bezier(.16,1,.3,1) forwards}
+.hero-right{text-align:right;opacity:0;animation:fadeUp 0.8s 0.3s cubic-bezier(.16,1,.3,1) forwards}
+.hero-timer-label{font-family:var(--font-mono);font-size:10px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
+.hero-timer{font-family:var(--font-mono);font-size:48px;font-weight:600;color:var(--ink);letter-spacing:-1px;line-height:1}
+.hero-timer span{color:var(--muted2);font-weight:300}
+.since-bar{background:var(--ink);color:var(--bg);border-radius:16px;padding:20px 28px;margin-bottom:60px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;opacity:0;animation:fadeUp 0.8s 0.4s cubic-bezier(.16,1,.3,1) forwards}
+.since-label{font-family:var(--font-mono);font-size:10px;letter-spacing:3px;color:var(--muted2);text-transform:uppercase;flex-shrink:0}
+.since-stats{display:flex;gap:32px;flex-wrap:wrap;flex:1}
+.since-val{font-family:var(--font-mono);font-size:22px;font-weight:600;color:#fff;line-height:1}
+.since-stat-label{font-size:11px;color:var(--muted2);margin-top:3px;font-family:var(--font-mono);letter-spacing:1px}
+.section-header{display:flex;align-items:baseline;gap:16px;margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.section-title{font-family:var(--font-display);font-size:28px;font-weight:700;letter-spacing:-0.5px}
+.section-desc{font-size:13px;color:var(--muted);font-weight:300}
+.section-wrap{margin-bottom:64px;opacity:0;animation:fadeUp 0.8s cubic-bezier(.16,1,.3,1) forwards}
+.section-wrap:nth-child(1){animation-delay:0.5s}.section-wrap:nth-child(2){animation-delay:0.6s}.section-wrap:nth-child(3){animation-delay:0.7s}.section-wrap:nth-child(4){animation-delay:0.8s}.section-wrap:nth-child(5){animation-delay:0.9s}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;position:relative;overflow:hidden;transition:transform 0.2s,box-shadow 0.2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(26,20,16,0.08)}
+.stat-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;border-radius:99px}
+.stat-card.birth::before{background:var(--birth)}.stat-card.death::before{background:var(--death)}.stat-card.nature::before{background:var(--nature)}.stat-card.human::before{background:var(--human)}.stat-card.climate::before{background:var(--climate)}.stat-card.space::before{background:var(--space)}
+.stat-emoji{font-size:24px;margin-bottom:14px;display:block;line-height:1}
+.stat-number{font-family:var(--font-mono);font-size:36px;font-weight:600;line-height:1;margin-bottom:6px;letter-spacing:-1px;transition:color 0.3s}
+.stat-card.birth .stat-number{color:var(--birth)}.stat-card.death .stat-number{color:var(--death)}.stat-card.nature .stat-number{color:var(--nature)}.stat-card.human .stat-number{color:var(--human)}.stat-card.climate .stat-number{color:var(--climate)}.stat-card.space .stat-number{color:var(--space)}
+.stat-label{font-size:13px;font-weight:600;color:var(--ink2);margin-bottom:4px}
+.stat-sub{font-size:11px;color:var(--muted);font-family:var(--font-mono);letter-spacing:0.5px}
+.per-sec{display:inline-flex;align-items:center;gap:5px;background:rgba(26,20,16,0.05);border-radius:99px;padding:3px 10px;font-family:var(--font-mono);font-size:10px;color:var(--muted);margin-top:10px;letter-spacing:1px}
+.per-sec-dot{width:5px;height:5px;border-radius:50%;background:currentColor;animation:blink2 1s infinite}
+@keyframes blink2{0%,100%{opacity:1}50%{opacity:0.2}}
+.big-counter-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.big-counter{background:var(--ink);border-radius:16px;padding:28px;color:white;position:relative;overflow:hidden}
+.big-counter::after{content:attr(data-emoji);position:absolute;right:20px;bottom:16px;font-size:64px;opacity:0.08;line-height:1;pointer-events:none}
+.big-counter-val{font-family:var(--font-mono);font-size:clamp(28px,4vw,48px);font-weight:600;letter-spacing:-1px;line-height:1;margin-bottom:8px;color:#fff}
+.big-counter-label{font-size:13px;color:rgba(255,255,255,0.5);font-weight:300;letter-spacing:0.5px}
+.big-counter-sub{font-family:var(--font-mono);font-size:10px;color:rgba(255,255,255,0.3);margin-top:8px;letter-spacing:1px}
+.ticker-wrap{background:var(--ink);border-radius:12px;padding:16px 24px;margin-bottom:64px;overflow:hidden;opacity:0;animation:fadeUp 0.8s 1s cubic-bezier(.16,1,.3,1) forwards}
+.ticker-label{font-family:var(--font-mono);font-size:9px;letter-spacing:3px;color:var(--muted2);text-transform:uppercase;margin-bottom:8px}
+.ticker-text{font-family:var(--font-mono);font-size:14px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:opacity 0.5s}
+.ticker-text.fade{opacity:0}
+.population-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px;margin-bottom:64px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;opacity:0;animation:fadeUp 0.8s 0.7s cubic-bezier(.16,1,.3,1) forwards}
+.pop-title{font-family:var(--font-display);font-size:18px;font-weight:700;margin-bottom:8px;color:var(--ink2)}
+.pop-number{font-family:var(--font-mono);font-size:clamp(36px,5vw,56px);font-weight:600;color:var(--human);letter-spacing:-2px;line-height:1;margin-bottom:12px}
+.pop-sub{font-size:13px;color:var(--muted);font-weight:300;line-height:1.6}
+.pop-bar-wrap{display:flex;flex-direction:column;gap:10px}
+.pop-bar-row{display:flex;align-items:center;gap:12px}
+.pop-bar-label{font-size:12px;color:var(--ink2);font-weight:600;width:80px;flex-shrink:0}
+.pop-bar-track{flex:1;height:6px;background:var(--border);border-radius:99px;overflow:hidden}
+.pop-bar-fill{height:100%;border-radius:99px}
+.pop-bar-val{font-family:var(--font-mono);font-size:11px;color:var(--muted);width:40px;text-align:right;flex-shrink:0}
+footer{border-top:1px solid var(--border);padding-top:32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-note{font-size:12px;color:var(--muted);font-family:var(--font-mono);line-height:1.6;max-width:500px}
+.footer-share{display:flex;gap:10px}
+.share-btn{padding:10px 20px;border-radius:99px;border:1px solid var(--border);background:none;font-family:var(--font-body);font-size:13px;font-weight:600;color:var(--ink2);cursor:pointer;transition:all 0.2s}
+.share-btn:hover{background:var(--ink);color:white;border-color:var(--ink)}
+.share-btn.primary{background:var(--ink);color:white;border-color:var(--ink)}
+.credit-badge{position:fixed;bottom:24px;right:24px;background:var(--ink);color:#fff;font-family:var(--font-mono);font-size:11px;padding:8px 16px;border-radius:99px;letter-spacing:1px;z-index:999;display:flex;align-items:center;gap:8px;box-shadow:0 4px 20px rgba(26,20,16,0.2);opacity:0;animation:fadeUp 0.8s 1.2s cubic-bezier(.16,1,.3,1) forwards}
+.credit-badge::before{content:'⚡';font-size:13px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes countUp{from{transform:translateY(4px);opacity:0}to{transform:translateY(0);opacity:1}}
+.num-changed{animation:countUp 0.15s ease forwards}
+@media(max-width:700px){.hero{grid-template-columns:1fr}.hero-right{text-align:left}.big-counter-grid{grid-template-columns:1fr}.population-card{grid-template-columns:1fr}.since-stats{gap:20px}.hero-timer{font-size:36px}.credit-badge{bottom:16px;right:16px;font-size:10px}}
 </style>
 </head>
 <body>
-
 <div class="credit-badge">Built by Sayan</div>
-
 <div class="wrap">
   <div class="hero">
     <div class="hero-left">
-      <div class="hero-eyebrow">
-        <span class="live-dot"></span>
-        Live Planet Data · by Sayan
-      </div>
+      <div class="hero-eyebrow"><span class="live-dot"></span>Live Planet Data · by Sayan</div>
       <h1 class="hero-title">Every Second<br><em>on Earth</em></h1>
       <p class="hero-sub">Right now, as you read this, billions of events are unfolding across our planet. Here's what's happening — in real time.</p>
     </div>
@@ -143,7 +103,6 @@ footer { border-top: 1px solid var(--border); padding-top: 32px; display: flex; 
       <div class="hero-timer" id="watchTimer">00<span>:</span>00<span>:</span>00</div>
     </div>
   </div>
-
   <div class="since-bar">
     <div class="since-label">Since you opened this page</div>
     <div class="since-stats">
@@ -154,12 +113,10 @@ footer { border-top: 1px solid var(--border); padding-top: 32px; display: flex; 
       <div class="since-stat"><div class="since-val" id="since-lightning">0</div><div class="since-stat-label">⚡ Lightning</div></div>
     </div>
   </div>
-
   <div class="ticker-wrap">
     <div class="ticker-label">Did you know</div>
     <div class="ticker-text" id="tickerText">Loading fascinating facts…</div>
   </div>
-
   <div class="population-card">
     <div class="pop-left">
       <div class="pop-title">World Population</div>
@@ -176,262 +133,3 @@ footer { border-top: 1px solid var(--border); padding-top: 32px; display: flex; 
       </div>
     </div>
   </div>
-  <div class="section-wrap">
-    <div class="section-header">
-      <div class="section-title">Life & Death</div>
-      <div class="section-desc">Per second on Earth</div>
-    </div>
-    <div class="cards-grid">
-      <div class="stat-card birth"><span class="stat-emoji">👶</span><div class="stat-number" id="s-births">0</div><div class="stat-label">Babies Born</div><div class="stat-sub">~4.5 per second globally</div><div class="per-sec"><span class="per-sec-dot"></span>+4.5 / sec</div></div>
-      <div class="stat-card death"><span class="stat-emoji">💀</span><div class="stat-number" id="s-deaths">0</div><div class="stat-label">People Died</div><div class="stat-sub">~1.8 per second globally</div><div class="per-sec"><span class="per-sec-dot"></span>+1.8 / sec</div></div>
-      <div class="stat-card birth"><span class="stat-emoji">💒</span><div class="stat-number" id="s-marriages">0</div><div class="stat-label">Marriages</div><div class="stat-sub">~2.1 per second</div><div class="per-sec"><span class="per-sec-dot"></span>+2.1 / sec</div></div>
-      <div class="stat-card death"><span class="stat-emoji">💔</span><div class="stat-number" id="s-divorces">0</div><div class="stat-label">Divorces</div><div class="stat-sub">~1.1 per second</div><div class="per-sec"><span class="per-sec-dot"></span>+1.1 / sec</div></div>
-    </div>
-  </div>
-
-  <div class="section-wrap">
-    <div class="section-header">
-      <div class="section-title">Nature</div>
-      <div class="section-desc">Our planet never sleeps</div>
-    </div>
-    <div class="cards-grid">
-      <div class="stat-card nature"><span class="stat-emoji">⚡</span><div class="stat-number" id="s-lightning">0</div><div class="stat-label">Lightning Strikes</div><div class="stat-sub">~100 per second worldwide</div><div class="per-sec"><span class="per-sec-dot"></span>+100 / sec</div></div>
-      <div class="stat-card nature"><span class="stat-emoji">🌊</span><div class="stat-number" id="s-waves">0</div><div class="stat-label">Ocean Waves</div><div class="stat-sub">Billions crash every second</div><div class="per-sec"><span class="per-sec-dot"></span>+1.4B / sec</div></div>
-      <div class="stat-card nature"><span class="stat-emoji">🌍</span><div class="stat-number" id="s-quakes">0</div><div class="stat-label">Micro Earthquakes</div><div class="stat-sub">~1.3 detectable per second</div><div class="per-sec"><span class="per-sec-dot"></span>+1.3 / sec</div></div>
-      <div class="stat-card nature"><span class="stat-emoji">🐝</span><div class="stat-number" id="s-bees">0</div><div class="stat-label">Bee Wingbeats</div><div class="stat-sub">Trillions per second globally</div><div class="per-sec"><span class="per-sec-dot"></span>+2T / sec</div></div>
-    </div>
-  </div>
-
-  <div class="section-wrap">
-    <div class="section-header">
-      <div class="section-title">Climate & Environment</div>
-      <div class="section-desc">The numbers that matter most</div>
-    </div>
-    <div class="big-counter-grid">
-      <div class="big-counter" data-emoji="🌳"><div class="big-counter-val" id="s-trees">0</div><div class="big-counter-label">Trees Cut Down</div><div class="big-counter-sub">~15 billion per year · ~475 per second</div></div>
-      <div class="big-counter" data-emoji="🌫️"><div class="big-counter-val" id="s-co2">0</div><div class="big-counter-label">Tons of CO₂ Emitted</div><div class="big-counter-sub">~37B tons/year · ~1,172 per second</div></div>
-      <div class="big-counter" data-emoji="🐟"><div class="big-counter-val" id="s-fish">0</div><div class="big-counter-label">Fish Caught</div><div class="big-counter-sub">~1 trillion/year · ~31,700 per second</div></div>
-      <div class="big-counter" data-emoji="💧"><div class="big-counter-val" id="s-water">0</div><div class="big-counter-label">Liters of Water Used</div><div class="big-counter-sub">~13 trillion/day · ~150M per second</div></div>
-    </div>
-  </div>
-
-  <div class="section-wrap">
-    <div class="section-header">
-      <div class="section-title">Human Activity</div>
-      <div class="section-desc">8 billion people doing things right now</div>
-    </div>
-    <div class="cards-grid">
-      <div class="stat-card human"><span class="stat-emoji">✈️</span><div class="stat-number" id="s-flights">0</div><div class="stat-label">Flights in the Air</div><div class="stat-sub">~10,000 planes airborne at peak</div><div class="per-sec"><span class="per-sec-dot"></span>live count</div></div>
-      <div class="stat-card human"><span class="stat-emoji">📱</span><div class="stat-number" id="s-messages">0</div><div class="stat-label">WhatsApp Messages</div><div class="stat-sub">~100 billion per day</div><div class="per-sec"><span class="per-sec-dot"></span>+1.15M / sec</div></div>
-      <div class="stat-card human"><span class="stat-emoji">🔍</span><div class="stat-number" id="s-searches">0</div><div class="stat-label">Google Searches</div><div class="stat-sub">~8.5 billion per day</div><div class="per-sec"><span class="per-sec-dot"></span>+98K / sec</div></div>
-      <div class="stat-card human"><span class="stat-emoji">🍔</span><div class="stat-number" id="s-burgers">0</div><div class="stat-label">Burgers Eaten</div><div class="stat-sub">~50 billion per year globally</div><div class="per-sec"><span class="per-sec-dot"></span>+1,585 / sec</div></div>
-      <div class="stat-card human"><span class="stat-emoji">☕</span><div class="stat-number" id="s-coffee">0</div><div class="stat-label">Cups of Coffee</div><div class="stat-sub">~2.5 billion cups per day</div><div class="per-sec"><span class="per-sec-dot"></span>+28,900 / sec</div></div>
-      <div class="stat-card human"><span class="stat-emoji">💸</span><div class="stat-number" id="s-money">0</div><div class="stat-label">$ Spent Online</div><div class="stat-sub">~$6.3 trillion e-commerce/year</div><div class="per-sec"><span class="per-sec-dot"></span>+$200K / sec</div></div>
-    </div>
-  </div>
-
-  <div class="section-wrap">
-    <div class="section-header">
-      <div class="section-title">Space & Universe</div>
-      <div class="section-desc">Beyond our pale blue dot</div>
-    </div>
-    <div class="cards-grid">
-      <div class="stat-card space"><span class="stat-emoji">☀️</span><div class="stat-number" id="s-solar">173K TW</div><div class="stat-label">Solar Energy Hitting Earth</div><div class="stat-sub">~173,000 TW continuously</div><div class="per-sec"><span class="per-sec-dot"></span>constant</div></div>
-      <div class="stat-card space"><span class="stat-emoji">🌌</span><div class="stat-number" id="s-stars">0</div><div class="stat-label">New Stars Born</div><div class="stat-sub">~3 per second in Milky Way</div><div class="per-sec"><span class="per-sec-dot"></span>+3 / sec</div></div>
-      <div class="stat-card space"><span class="stat-emoji">🌠</span><div class="stat-number" id="s-meteors">0</div><div class="stat-label">Meteors Enter Atmosphere</div><div class="stat-sub">~17 million per day</div><div class="per-sec"><span class="per-sec-dot"></span>+197 / sec</div></div>
-      <div class="stat-card space"><span class="stat-emoji">🚀</span><div class="stat-number" id="s-distance">0</div><div class="stat-label">km Earth Travels in Space</div><div class="stat-sub">Earth orbits sun at ~30 km/s</div><div class="per-sec"><span class="per-sec-dot"></span>+30 km / sec</div></div>
-    </div>
-  </div>
-
-  <footer>
-    <div class="footer-note">
-      Data sourced from WHO, UN, NASA, WRI & peer-reviewed research.<br>
-      Built with ❤️ by <strong>Sayan</strong> · Numbers are approximations based on annual statistics.
-    </div>
-    <div class="footer-share">
-      <button class="share-btn" onclick="copyLink()">🔗 Copy Link</button>
-      <button class="share-btn primary" onclick="shareTwitter()">𝕏 Share</button>
-    </div>
-  </footer>
-
-                                                                      </div
-<script>
-const rates = {
-  births:    4.5,
-  deaths:    1.8,
-  marriages: 2.1,
-  divorces:  1.1,
-  lightning: 100,
-  waves:     1400000000,
-  quakes:    1.3,
-  bees:      2000000000000,
-  trees:     475,
-  co2:       1172,
-  fish:      31700,
-  water:     150000000,
-  messages:  1157407,
-  searches:  98380,
-  burgers:   1585,
-  coffee:    28935,
-  money:     200000,
-  stars:     3,
-  meteors:   197,
-  distance:  30,
-  pop:       2.3,
-};
-
-const startTime = Date.now();
-
-function fmt(n) {
-  if(n >= 1e15) return (n/1e15).toFixed(1)+'Q';
-  if(n >= 1e12) return (n/1e12).toFixed(1)+'T';
-  if(n >= 1e9)  return (n/1e9).toFixed(1)+'B';
-  if(n >= 1e6)  return (n/1e6).toFixed(1)+'M';
-  if(n >= 1e3)  return Math.round(n).toLocaleString();
-  if(n < 10)    return n.toFixed(1);
-  return Math.round(n).toLocaleString();
-}
-
-function fmtMoney(n) {
-  if(n >= 1e9) return '$'+(n/1e9).toFixed(1)+'B';
-  if(n >= 1e6) return '$'+(n/1e6).toFixed(1)+'M';
-  return '$'+Math.round(n).toLocaleString();
-}
-
-function updateWatchTimer() {
-  const elapsed = Math.floor((Date.now() - startTime) / 1000);
-  const h = Math.floor(elapsed / 3600);
-  const m = Math.floor((elapsed % 3600) / 60);
-  const s = elapsed % 60;
-  document.getElementById('watchTimer').innerHTML =
-    String(h).padStart(2,'0') + '<span>:</span>' +
-    String(m).padStart(2,'0') + '<span>:</span>' +
-    String(s).padStart(2,'0');
-}
-
-function updatePop() {
-  const elapsed = (Date.now() - startTime) / 1000;
-  const pop = Math.round(8119000000 + elapsed * rates.pop);
-  document.getElementById('worldPop').textContent = pop.toLocaleString();
-}
-
-function getFlights() {
-  const hour = new Date().getHours();
-  const base = hour >= 6 && hour <= 22 ? 9500 : 4200;
-  return Math.round(base + Math.sin(Date.now()/10000) * 300);
-}
-
-function setVal(id, val) {
-  const el = document.getElementById(id);
-  if(!el) return;
-  if(el.textContent !== String(val)) {
-    el.textContent = val;
-    el.classList.remove('num-changed');
-    void el.offsetWidth;
-    el.classList.add('num-changed');
-  }
-}
-
-let lastTime = Date.now();
-
-function update() {
-  const now = Date.now();
-  lastTime = now;
-  const elapsed = (now - startTime) / 1000;
-
-  // Since bar
-  setVal('since-births',    fmt(elapsed * rates.births));
-  setVal('since-deaths',    fmt(elapsed * rates.deaths));
-  setVal('since-trees',     fmt(elapsed * rates.trees));
-  setVal('since-co2',       fmt(elapsed * rates.co2));
-  setVal('since-lightning', fmt(elapsed * rates.lightning));
-
-  // Life & death
-  setVal('s-births',    fmt(elapsed * rates.births));
-  setVal('s-deaths',    fmt(elapsed * rates.deaths));
-  setVal('s-marriages', fmt(elapsed * rates.marriages));
-  setVal('s-divorces',  fmt(elapsed * rates.divorces));
-
-  // Nature
-  setVal('s-lightning', fmt(elapsed * rates.lightning));
-  setVal('s-waves',     fmt(elapsed * rates.waves));
-  setVal('s-quakes',    fmt(elapsed * rates.quakes));
-  setVal('s-bees',      fmt(elapsed * rates.bees));
-
-  // Climate
-  setVal('s-trees', fmt(elapsed * rates.trees));
-  setVal('s-co2',   fmt(elapsed * rates.co2));
-  setVal('s-fish',  fmt(elapsed * rates.fish));
-  setVal('s-water', fmt(elapsed * rates.water));
-
-  // Human
-  setVal('s-flights',  fmt(getFlights()));
-  setVal('s-messages', fmt(elapsed * rates.messages));
-  setVal('s-searches', fmt(elapsed * rates.searches));
-  setVal('s-burgers',  fmt(elapsed * rates.burgers));
-  setVal('s-coffee',   fmt(elapsed * rates.coffee));
-  setVal('s-money',    fmtMoney(elapsed * rates.money));
-
-  // Space
-  setVal('s-stars',    fmt(elapsed * rates.stars));
-  setVal('s-meteors',  fmt(elapsed * rates.meteors));
-  setVal('s-distance', fmt(elapsed * rates.distance) + ' km');
-
-  updateWatchTimer();
-  updatePop();
-}
-
-setInterval(update, 100);
-update();
-const facts = [
-  "Every second, 4.5 babies are born somewhere on Earth 👶",
-  "Lightning strikes Earth about 100 times every second ⚡",
-  "About 475 trees are cut down every single second 🌳",
-  "1.15 million WhatsApp messages are sent every second 📱",
-  "The Earth travels 30 kilometers through space every second 🚀",
-  "About 31,700 fish are caught from the ocean every second 🐟",
-  "98,000 Google searches happen every single second 🔍",
-  "The sun delivers 173,000 terawatts of energy to Earth non-stop ☀️",
-  "About 197 meteors enter Earth's atmosphere every second 🌠",
-  "1,172 tons of CO₂ are released into the atmosphere every second 🌫️",
-  "150 million liters of fresh water are used globally every second 💧",
-  "28,935 cups of coffee are consumed around the world every second ☕",
-  "About 3 new stars are born in our galaxy every second 🌌",
-  "2.1 couples get married somewhere on Earth every second 💒",
-  "$200,000 is spent in online purchases every single second 💸",
-  "Bees flap their wings trillions of times every second across Earth 🐝",
-  "About 1.3 micro-earthquakes are detected somewhere on Earth per second 🌍",
-  "This page was built by Sayan — a one-person dev with big ideas 🚀",
-];
-
-let factIndex = 0;
-
-function rotateFact() {
-  const el = document.getElementById('tickerText');
-  el.classList.add('fade');
-  setTimeout(() => {
-    factIndex = (factIndex + 1) % facts.length;
-    el.textContent = facts[factIndex];
-    el.classList.remove('fade');
-  }, 500);
-}
-
-document.getElementById('tickerText').textContent = facts[0];
-setInterval(rotateFact, 4000);
-
-function copyLink() {
-  navigator.clipboard.writeText(window.location.href).then(() => {
-    const btn = event.target;
-    const orig = btn.textContent;
-    btn.textContent = '✅ Copied!';
-    setTimeout(() => btn.textContent = orig, 2000);
-  });
-}
-
-function shareTwitter() {
-  const text = encodeURIComponent('Every second on Earth: 4.5 babies born, 100 lightning strikes, 475 trees cut down 🌍 Mind-blowing real-time stats built by @Sayan');
-  window.open('https://twitter.com/intent/tweet?text='+text+'&url='+encodeURIComponent(window.location.href), '_blank');
-}
-</script>
-</body>
-</html>
